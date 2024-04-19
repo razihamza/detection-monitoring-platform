@@ -1,0 +1,55 @@
+version: '3'
+
+volumes:
+    prometheus-data: {}
+    grafana-data: {}
+
+services:
+    prediction_api:
+        image: mainproject/anomaly-platform-api
+        container_name: prediction-api
+        ports:
+            - 8000:8000
+        expose:
+            - 8000
+
+    prometheus:
+        image: prom/prometheus:v2.20.0
+        container_name: prometheus
+        volumes:
+            - ./prometheus:/etc/prometheus
+            - prometheus-data:/prometheus
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.path=/prometheus'
+            - '--storage.tsdb.retention.time=48h'
+        restart: unless-stopped
+        expose:
+            - 9090
+    
+    grafana:
+        image: grafana/grafana:7.1.1
+        container_name: grafana
+        volumes:
+            - grafana-data:/var/lib/grafana
+            - ./grafana/provisioning:/etc/grafana/provisioning
+        restart: unless-stopped
+        expose:
+            - 3000
+        environment:
+            - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
+            - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+            - GF_USERS_ALLOW_SIGN_UP=false
+    
+    caddy:
+        image: stefanprodan/caddy
+        container_name: caddy
+        restart: unless-stopped
+        volumes: 
+            - ./caddy:/etc/caddy
+        environment:
+            - ADMIN_USER=${ADMIN_USER:-admin}
+            - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+        ports:
+            - 3000:3000
+            - 9090:9090
