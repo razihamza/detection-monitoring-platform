@@ -15,7 +15,7 @@
 
 #define WIFI_SSID "Razo"
 #define WIFI_PASSWORD "password1"
-#define API_KEY "AIzaSyDJyOSVXPr5lruuIYleatmDpfKPhH4rJNs"
+#define API_KEY "AIzaSyDJyOSVXPr5lruuIYleatmDpfKPhH4rJNs123"
 #define DATABASE_URL "https://mainproject-1ebb8-default-rtdb.firebaseio.com/"
 
 
