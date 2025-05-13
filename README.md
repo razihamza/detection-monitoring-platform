@@ -77,7 +77,3 @@ detection-monitoring-platform/
 - **Monitoring**: The `monitoring` module visualizes data and alerts users of any detected anomalies.
 - **API Services**: The `service` module provides RESTful APIs for external integrations.
 
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request for any enhancements or bug fixes.
-
